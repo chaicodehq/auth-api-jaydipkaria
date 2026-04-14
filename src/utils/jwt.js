@@ -1,4 +1,8 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv'
+import { json } from 'express';
+
+dotenv.config()
 
 /**
  * TODO: Signs a JWT token with the given payload
@@ -29,6 +33,15 @@ import jwt from 'jsonwebtoken';
  */
 export function signToken(payload) {
   // Your code here
+  const secret = process.env.JWT_SECRET
+  const expiresIn = process.env.JWT_EXPIRES_IN || '24h'
+  
+  if (!secret) {
+    throw new Error('JWT_SECRET is not defined');
+  }
+
+  return jwt.sign(payload,secret,{expiresIn})
+
 }
 
 /**
@@ -67,4 +80,8 @@ export function signToken(payload) {
  */
 export function verifyToken(token) {
   // Your code here
+  
+  const secret = process.env.JWT_SECRET
+  
+  return jwt.verify(token,secret)
 }
