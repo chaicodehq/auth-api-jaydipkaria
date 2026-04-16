@@ -28,14 +28,14 @@ export async function register(req, res, next) {
 
     if (userExist){
       return res.status(409).json({
-        error : {message : "Email already exist"}
+        error : {message : "Email already exists"}
       })
     }
     
     const user = await User.create({name, email, password})
     const userobj = user.toObject()
     delete userobj.password
-    res.status(201).json({userobj})
+    res.status(201).json({user : userobj})
 
     }
     
@@ -79,7 +79,10 @@ export async function login(req, res, next) {
     const token = signToken({ userId: user._id, email: user.email, role: user.role })
     const userObj = user.toObject()
     delete userObj.password
-    res.status(200).json({token})
+    res.status(200).json({
+      token,
+      user : userObj
+    })
     }
 
     
