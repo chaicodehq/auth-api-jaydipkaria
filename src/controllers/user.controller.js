@@ -1,4 +1,4 @@
-import User from '../models/user.model.js';
+import {User} from '../models/user.model.js';
 
 /**
  * TODO: List all users (Admin only)
